@@ -136,6 +136,26 @@ form {
   letter-spacing: 0px;
   padding-bottom: 15px;
 }
+.drawtable {
+  background-color: #222;
+}
+.tableheader,
+.drawtable {
+  width: 100%;
+  font-size: 12px;
+  font-weight: normal;
+}
+.drawtable td {
+  padding: 5px 10px 5px 12px;
+  border-right: 1px solid #000;
+}
+.tableheader th {
+  text-transform: uppercase;
+}
+.tableheader th:first-child,
+.drawtable td:first-child {
+  width: 14%;
+}
 
 @media all and (min-width: 600px) {
   .main {
