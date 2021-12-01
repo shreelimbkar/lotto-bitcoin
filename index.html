@@ -6,7 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Lotto & Bitcoin Calculator</title>
     <link rel="stylesheet" href="css/main.css" />
-    <script src="js/main.js"></script>
   </head>
   <body>
     <div class="wrapper">
@@ -22,21 +21,31 @@
             <p class="title">Enter a Date and Time</p>
           </div>
           <div class="card-body">
-            <p>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Veritatis
-              provident quam explicabo blanditiis odit, praesentium dignissimos
-              saepe, inventore, quas molestias repudiandae voluptates obcaecati
-              amet consequuntur unde ad perspiciatis nostrum maiores.
-            </p>
+            <form onsubmit="return false;">
+              <label for="txtDateTime">
+                <input
+                  type="datetime-local"
+                  name="txtDateTime"
+                  id="txtDateTime"
+                  class="txtDateTime"
+                />
+              </label>
+              <button
+                type="button"
+                name="btnSubmit"
+                id="btnSubmit"
+                class="btnSubmit"
+              >
+                Submit
+              </button>
+            </form>
           </div>
         </div>
         <div class="card">
-          <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Mollitia
-            culpa ab totam, autem fuga cum doloremque sequi praesentium ducimus
-            perferendis reiciendis libero velit! Facilis dolorum obcaecati dicta
-            aliquam. Mollitia, dolorem?
-          </p>
+          <div class="card-header">
+            <p class="title">Draw Date/Time</p>
+          </div>
+          <div class="card-body"></div>
         </div>
       </article>
       <aside class="sidebar">
@@ -62,5 +71,6 @@
         </div>
       </aside>
     </div>
+    <script src="js/main.js"></script>
   </body>
 </html>
