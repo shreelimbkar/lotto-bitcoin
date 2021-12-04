@@ -2,6 +2,7 @@ const btnSubmit = document.querySelector(".btnSubmit");
 const txtDateTime = document.querySelector("input[name='txtDateTime']");
 const baseURL = "https://api.coingecko.com/api/v3/coins";
 let formattedNextDrawDateWithTime, bitCoinCurrentPrice, bitCoinValue;
+const bitCoinTBody = document.querySelector("#bitcoinvalues");
 
 window.addEventListener("load", () => {
   const now = new Date();
@@ -28,11 +29,6 @@ btnSubmit.addEventListener("click", (event) => {
     .join("-")}`;
   formattedNextDrawDateWithTime = `${formattedNextDrawDate} 20:00`;
   drawDateBitCoinPrice(formattedNextDrawDate);
-  // console.log(
-  //   "formattedNextDrawDate Date = ",
-  //   formattedNextDrawDate,
-  //   bitCoinCurrentPrice
-  // );
 });
 
 const getNextLottoDraw = (inputDateTime) => {
@@ -41,12 +37,6 @@ const getNextLottoDraw = (inputDateTime) => {
   const selectedDay = parseInt(nextLottoDrawDateTime.getDay());
   const selectedHrs = parseInt(nextLottoDrawDateTime.getHours());
   const selectedMins = parseInt(nextLottoDrawDateTime.getMinutes());
-  // console.log(
-  //   "selectedDay, selectedHrs, selectedMins",
-  //   selectedDay,
-  //   selectedHrs,
-  //   selectedMins
-  // );
 
   if (selectedDay <= 3 && selectedHrs <= 20) {
     if (selectedHrs == 20 && selectedMins > 0) {
@@ -61,7 +51,6 @@ const getNextLottoDraw = (inputDateTime) => {
       );
     }
   } else if (selectedDay <= 3 && selectedHrs > 20) {
-    console.log("in else");
     drawDate = new Date(
       nextLottoDrawDateTime.getTime() +
         (3 - selectedDay) * (60 * 60 * 24 * 1000)
@@ -85,8 +74,6 @@ const getNextLottoDraw = (inputDateTime) => {
         (6 - selectedDay) * (60 * 60 * 24 * 1000)
     );
   }
-
-  // console.log("drawDate", drawDate);
   return drawDate;
 };
 
@@ -99,12 +86,14 @@ const getBitCoinCurrentPrice = async () => {
 const drawDateBitCoinPrice = async (drawDate) => {
   const response = await fetch(`${baseURL}/bitcoin/history?date=${drawDate}`);
   const data = await response.json();
-  bitCoinValue = parseFloat(
-    (data.market_data.current_price.eur * 100) / bitCoinCurrentPrice
-  ).toFixed(2);
-  // console.log(
-  //   "formattedNextDrawDateWithTime",
-  //   formattedNextDrawDateWithTime,
-  //   bitCoinValue
-  // );
+  if (data?.market_data) {
+    bitCoinValue = parseFloat(
+      (data.market_data.current_price.eur * 100) / bitCoinCurrentPrice
+    ).toFixed(2);
+    let newRow = bitCoinTBody.insertRow();
+    newRow.insertCell().append(formattedNextDrawDateWithTime);
+    newRow.insertCell().append(bitCoinValue);
+  } else {
+    alert("Future Bitcoin Price not found.");
+  }
 };

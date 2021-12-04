@@ -144,15 +144,22 @@ form {
   width: 100%;
   font-size: 12px;
   font-weight: normal;
+  border: none;
+}
+
+.drawtable th {
+  padding: 10px 10px;
+  background-color: #000;
+  text-transform: uppercase;
 }
 .drawtable td {
-  padding: 5px 10px 5px 12px;
+  padding: 10px 10px;
   border-right: 1px solid #000;
 }
 .tableheader th {
   text-transform: uppercase;
 }
-.tableheader th:first-child,
+.drawtable th:first-child,
 .drawtable td:first-child {
   width: 14%;
 }
