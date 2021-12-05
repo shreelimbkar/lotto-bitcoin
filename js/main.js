@@ -3,6 +3,7 @@ const txtDateTime = document.querySelector("input[name='txtDateTime']");
 const baseURL = "https://api.coingecko.com/api/v3/coins";
 let formattedNextDrawDateWithTime, bitCoinCurrentPrice, bitCoinValue;
 const bitCoinTBody = document.querySelector("#bitcoinvalues");
+const bitCoinPriceMsg = "Future Bitcoin Price not found.";
 const SAT = 6;
 const WED = 3;
 const DAY_IN_MS = 24 * 60 * 60 * 1000;
@@ -41,45 +42,7 @@ const getTimeTillDrawHr = (selectedHrs, selectedMins) => {
   return Hr - Min;
 };
 
-// const getNextLottoDraw = (inputDateTime) => {
-//   const nextLottoDrawDateTime = new Date(inputDateTime);
-//   let drawDate;
-//   const selectedDay = parseInt(nextLottoDrawDateTime.getDay());
-//   const selectedHrs = parseInt(nextLottoDrawDateTime.getHours());
-//   const selectedMins = parseInt(nextLottoDrawDateTime.getMinutes());
-
-//   /* code update */
-//   let timeForDraw = 0;
-//   if ((selectedDay === WED || selectedDay === SAT) && selectedHrs < 20) {
-//     timeForDraw = getTimeTillDrawHr(selectedHrs, selectedMins);
-//   }
-//   if ((selectedDay === WED || selectedDay === SAT) && selectedHrs > 20) {
-//     let Days = 0;
-//     if (selectedDay === WED) {
-//       Days = (SAT - WED) * DAY_IN_MS;
-//     }
-//     if (selectedDay === SAT) {
-//       Days = (SAT - WED + 1) * DAY_IN_MS; //not sure about this +1 need to study
-//     }
-//     timeForDraw = Days + getTimeTillDrawHr(selectedHrs, selectedMins);
-//   }
-//   if (selectedDay > WED && selectedDay < SAT) {
-//     const Days = (SAT - selectedDay) * DAY_IN_MS;
-//     timeForDraw = Days + getTimeTillDrawHr(selectedHrs, selectedMins);
-//   }
-//   if (selectedDay < WED) {
-//     const Days = (WED - selectedDay) * DAY_IN_MS;
-//     timeForDraw = Days + getTimeTillDrawHr(selectedHrs, selectedMins);
-//   }
-
-//   const nextDrawInMs = nextLottoDrawDateTime.getTime() + timeForDraw;
-//   const nextDrawDate = new Date(nextDrawInMs);
-
-//   console.log("nextDraw " + nextDrawDate);
-//   return nextDrawDate;
-// };
-
-// This method can calculate the precies time of next draw date.
+// This method can calculate the exact time of next draw date.
 const getNextLottoDraw = (inputDateTime) => {
   const nextLottoDrawDateTime = new Date(inputDateTime);
   let drawDate;
@@ -135,14 +98,55 @@ const getBitCoinCurrentPrice = async () => {
 const drawDateBitCoinPrice = async (drawDate) => {
   const response = await fetch(`${baseURL}/bitcoin/history?date=${drawDate}`);
   const data = await response.json();
-  if (data?.market_data) {
-    bitCoinValue = parseFloat(
-      (data.market_data.current_price.eur * 100) / bitCoinCurrentPrice
-    ).toFixed(2);
-    let newRow = bitCoinTBody.insertRow();
-    newRow.insertCell().append(formattedNextDrawDateWithTime);
-    newRow.insertCell().append(bitCoinValue);
-  } else {
-    alert("Future Bitcoin Price not found.");
-  }
+  let newRow = bitCoinTBody.insertRow();
+
+  bitCoinValue = parseFloat(
+    (data?.market_data?.current_price.eur * 100) / bitCoinCurrentPrice
+  ).toFixed(2);
+  newRow.insertCell().append(formattedNextDrawDateWithTime);
+  newRow.className = "new-row";
+
+  data?.market_data
+    ? newRow.insertCell().append(bitCoinValue)
+    : newRow.insertCell().append(bitCoinPriceMsg);
 };
+
+// Tried to write another logic to calculate Next Lotto Draw.
+
+// const getNextLottoDraw = (inputDateTime) => {
+//   const nextLottoDrawDateTime = new Date(inputDateTime);
+//   let drawDate;
+//   const selectedDay = parseInt(nextLottoDrawDateTime.getDay());
+//   const selectedHrs = parseInt(nextLottoDrawDateTime.getHours());
+//   const selectedMins = parseInt(nextLottoDrawDateTime.getMinutes());
+
+//   /* code update */
+//   let timeForDraw = 0;
+//   if ((selectedDay === WED || selectedDay === SAT) && selectedHrs < 20) {
+//     timeForDraw = getTimeTillDrawHr(selectedHrs, selectedMins);
+//   }
+//   if ((selectedDay === WED || selectedDay === SAT) && selectedHrs > 20) {
+//     let Days = 0;
+//     if (selectedDay === WED) {
+//       Days = (SAT - WED) * DAY_IN_MS;
+//     }
+//     if (selectedDay === SAT) {
+//       Days = (SAT - WED + 1) * DAY_IN_MS; //not sure about this +1 need to study
+//     }
+//     timeForDraw = Days + getTimeTillDrawHr(selectedHrs, selectedMins);
+//   }
+//   if (selectedDay > WED && selectedDay < SAT) {
+//     const Days = (SAT - selectedDay) * DAY_IN_MS;
+//     timeForDraw = Days + getTimeTillDrawHr(selectedHrs, selectedMins);
+//   }
+//   if (selectedDay < WED) {
+//     const Days = (WED - selectedDay) * DAY_IN_MS;
+//     timeForDraw = Days + getTimeTillDrawHr(selectedHrs, selectedMins);
+//   }
+
+//   const nextDrawInMs = nextLottoDrawDateTime.getTime() + timeForDraw;
+//   const nextDrawDate = new Date(nextDrawInMs);
+
+//   console.log("nextDraw " + nextDrawDate);
+//   return nextDrawDate;
+// };

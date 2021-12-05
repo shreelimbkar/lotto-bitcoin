@@ -85,7 +85,6 @@ body {
   margin: 0 10px;
   padding: 0;
   text-align: left;
-  /* background-color: #272727; */
 }
 
 form {
@@ -163,6 +162,56 @@ form {
 .drawtable td:first-child {
   width: 14%;
 }
+
+.new-row {
+  animation: newDrawAnim 1s ease 0s 1 normal forwards;
+}
+
+/* Animation styles for new table row */
+@keyframes newDrawAnim {
+  0% {
+    animation-timing-function: ease-in;
+    opacity: 0;
+    transform: translateX(250px);
+  }
+
+  38% {
+    animation-timing-function: ease-out;
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  55% {
+    animation-timing-function: ease-in;
+    transform: translateX(68px);
+  }
+
+  72% {
+    animation-timing-function: ease-out;
+    transform: translateX(0);
+  }
+
+  81% {
+    animation-timing-function: ease-in;
+    transform: translateX(32px);
+  }
+
+  90% {
+    animation-timing-function: ease-out;
+    transform: translateX(0);
+  }
+
+  95% {
+    animation-timing-function: ease-in;
+    transform: translateX(8px);
+  }
+
+  100% {
+    animation-timing-function: ease-out;
+    transform: translateX(0);
+  }
+}
+/* Styles for responsive layout */
 
 @media all and (min-width: 600px) {
   .main {

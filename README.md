@@ -2,6 +2,8 @@
 
 Lotto &amp; Bitcoin Web Portal - 888 Coding exercise
 
+![](./chrome-capture.gif)
+
 ## Mock-UP
 
 - [The Lotto calculator](https://xd.adobe.com/view/48521f4e-3e98-4409-a223-103e319597f8-1d01/)
